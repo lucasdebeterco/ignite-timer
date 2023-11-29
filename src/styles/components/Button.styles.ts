@@ -8,5 +8,5 @@ interface IButtonContainer {
 
 export const ButtonContainer = styled.button<IButtonContainer>`
     height: 80px;
-    background: ${props => props.theme.primary};
+    background: ${props => props.theme.secondary};
 `
