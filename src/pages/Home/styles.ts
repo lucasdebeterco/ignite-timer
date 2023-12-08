@@ -26,6 +26,33 @@ export const FormContainer = styled.div`
   font-size: 1.125rem;
   font-weight: bold;
 `
+const BaseInput = styled.input`
+  background: transparent;
+  height: 2.5rem;
+  border: 0;
+  border-bottom: 2px solid ${(color) => color.theme['gray-500']};
+  font-weight: bold;
+  font-size: 1.125rem;
+  padding: 0 0.5rem;
+  color: ${(color) => color.theme['gray-500']};
+
+  &:focus {
+    box-shadow: none;
+    border-color: ${(color) => color.theme['green-500']};
+  }
+
+  &::placeholder {
+    color: ${(color) => color.theme['gray-500']};
+  }
+`
+
+export const TaskInput = styled(BaseInput)`
+  flex: 1;
+`
+
+export const MinutesAmountInput = styled(BaseInput)`
+  width: 4rem;
+`
 
 export const CountdownContainer = styled.div`
   font-family: 'Roboto Mono', monospace;
