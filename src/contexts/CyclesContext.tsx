@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useReducer, useState } from 'react'
 
 interface ICreateCycleData {
   task: string
@@ -32,7 +32,12 @@ interface ICyclesContextProvider {
 }
 
 export function CyclesContextProvider({ children }: ICyclesContextProvider) {
-  const [cycles, setCycles] = useState<ICycle[]>([])
+  const [cycles, dispatch] = useReducer((state: ICycle[], action: any) => {
+    console.log(state)
+    console.log(action)
+    return state
+  }, [])
+
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
   const [amountSecondsPast, setAmountSecondsPast] = useState(0)
 
@@ -43,7 +48,13 @@ export function CyclesContextProvider({ children }: ICyclesContextProvider) {
   }
 
   function markCurrentAsFinished() {
-    setCycles((state) =>
+    dispatch({
+      type: 'markCurrentAsFinished',
+      payload: {
+        activeCycleId,
+      },
+    })
+    /*    setCycles((state) =>
       state.map((cycle) => {
         if (cycle.id === activeCycleId) {
           return { ...cycle, finishedDate: new Date() }
@@ -51,7 +62,7 @@ export function CyclesContextProvider({ children }: ICyclesContextProvider) {
           return cycle
         }
       }),
-    )
+    ) */
   }
 
   function createNewCycle(data: ICreateCycleData) {
@@ -64,13 +75,25 @@ export function CyclesContextProvider({ children }: ICyclesContextProvider) {
       startDate: new Date(),
     }
 
-    setCycles((state) => [...state, newCycle])
+    dispatch({
+      type: 'addNewCycle',
+      payload: {
+        newCycle,
+      },
+    })
+    /* setCycles((state) => [...state, newCycle]) */
     setActiveCycleId(newCycle.id)
     setAmountSecondsPast(0)
   }
 
   function interruptCurrentCycle() {
-    setCycles((state) =>
+    dispatch({
+      type: 'interruptCurrentCycle',
+      payload: {
+        activeCycleId,
+      },
+    })
+    /*    setCycles((state) =>
       state.map((cycle) => {
         if (cycle.id === activeCycleId) {
           return { ...cycle, interruptedDate: new Date() }
@@ -78,7 +101,7 @@ export function CyclesContextProvider({ children }: ICyclesContextProvider) {
           return cycle
         }
       }),
-    )
+    ) */
 
     setActiveCycleId(null)
   }
